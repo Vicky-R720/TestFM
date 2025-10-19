@@ -1,18 +1,18 @@
-// package com.itu.gest_emp.controller;
+package com.itu.gest_emp.controller;
 
-// import servlet.annotations.Url;
+import servlet.annotations.Url;
 
-// public class HelloController{
+public class HelloController{
 
-//     @Url("/hello")
-//     public String hello() {
-//         return "Bonjour depuis le framework !";
-//     }
+    @Url("/hello")
+    public String hello() {
+        return "Bonjour depuis le framework !";
+    }
 
-//     @Url("/bye")
-//     public String bye() {
-//         return "Au revoir !";
-//     }
+    @Url("/bye")
+    public String bye() {
+        return "Au revoir !";
+    }
 
 
-// }
+}
