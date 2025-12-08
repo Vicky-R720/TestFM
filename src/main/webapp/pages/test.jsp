@@ -2,11 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test JSP</title>
+    <title>Test JSP avec données</title>
 </head>
 <body>
     <h1>Bonjour depuis test.jsp !</h1>
 
-    <p>Ceci est un test pour ton mini-framework MVC.</p>
+    <p>Message : ${message}</p>
+    <p>Age : ${age}</p>
 </body>
 </html>

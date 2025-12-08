@@ -11,6 +11,10 @@ public class HelloController {
     public ModelView hello() {
         ModelView mv = new ModelView();
         mv.setView("test.jsp");
+
+        // Passer des variables à la JSP
+        mv.addObject("message", "Bonjour depuis le controller !");
+        mv.addObject("age", 19);
         return mv;
     }
 
