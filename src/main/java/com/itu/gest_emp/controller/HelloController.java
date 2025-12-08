@@ -16,4 +16,9 @@ public class HelloController {
         return "Au revoir !";
     }
 
+    @Url("/age")
+    public Integer age() {
+        return 19;
+    }
+
 }
