@@ -22,4 +22,15 @@ public class HelloController {
     public String bye() {
         return "Au revoir !";
     }
+
+    public @interface RequestParam {
+        String value();
+    }
+
+    @Url("/testInjection")
+    public String test(
+            @servlet.annotations.RequestParam("var1") String v1,
+            @servlet.annotations.RequestParam("var2") int v2) {
+        return "var1=" + v1 + ", var2=" + v2;
+    }
 }
