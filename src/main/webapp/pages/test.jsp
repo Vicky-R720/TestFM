@@ -2,20 +2,20 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POST test</title>
+    <title>Save form</title>
 </head>
 <body>
 
-<h2>POST /test</h2>
+<h2>POST /save</h2>
 
-<form method="post" action="test">
-    <label>Var1 :</label>
-    <input type="text" name="var1"><br><br>
+<form method="post" action="save">
+    <label>Nom :</label>
+    <input type="text" name="nom"><br><br>
 
-    <label>Var2 :</label>
-    <input type="number" name="var2"><br><br>
+    <label>Prénom :</label>
+    <input type="text" name="prenom"><br><br>
 
-    <button type="submit">Send POST</button>
+    <button type="submit">Submit</button>
 </form>
 
 </body>
