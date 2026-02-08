@@ -1,6 +1,9 @@
 package com.itu.gest_emp.controller;
 
 import servlet.annotations.*;
+
+import java.util.Map;
+
 import servlet.ModelView;
 
 @Controller
@@ -20,4 +23,16 @@ public class HelloController {
             @RequestParam("var2") int v2) {
         return "POST var1=" + v1 + ", var2=" + v2;
     }
+
+    @PostMapping("/save")
+    public String save(Map<String, Object> data) {
+
+        ModelView mv = new ModelView();
+        mv.setView("test.jsp");
+
+        mv.addObject("nom", data.get("nom"));
+        mv.addObject("prenom", data.get("prenom"));
+        return data.toString();
+    }
+
 }
