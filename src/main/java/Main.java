@@ -3,6 +3,7 @@ import java.lang.reflect.Method;
 
 import com.itu.gest_emp.controller.HelloController;
 
+import servlet.ModelView;
 import servlet.annotations.Url;
 
 public class Main {
@@ -14,11 +15,16 @@ public class Main {
                 try {
                     Url url = method.getAnnotation(Url.class);
                     Object object = method.invoke(new HelloController());
-                    System.out.println(url.value()+": "+object);
+                    System.out.println(url.value() + ": " + object);
                 } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }
         }
+
+        ModelView mv = new ModelView();
+        mv.setView("test.jsp");
+        System.out.println("Nom de la vue : " + mv.getView());
+
     }
 }
