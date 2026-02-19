@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Session - CRUD Operations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .response {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .response h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        #result {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 6px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #333;
+            min-height: 100px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+
+        .error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.2em;
+            margin: 30px 0 15px 0;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Test Session - Opérations CRUD</h1>
+
+        <div class="section-title">📝 Opérations de Base</div>
+        
+        <div class="grid">
+            <!-- Ajouter/Modifier -->
+            <div class="card">
+                <h2>✏️ SET - Ajouter/Modifier</h2>
+                <div class="form-group">
+                    <label for="setKey">Clé</label>
+                    <input type="text" id="setKey" placeholder="Ex: username">
+                </div>
+                <div class="form-group">
+                    <label for="setValue">Valeur</label>
+                    <input type="text" id="setValue" placeholder="Ex: John">
+                </div>
+                <button onclick="setSession()">Sauvegarder en session</button>
+            </div>
+
+            <!-- Lire une valeur -->
+            <div class="card">
+                <h2>🔍 GET - Lire une valeur</h2>
+                <div class="form-group">
+                    <label for="getKey">Clé</label>
+                    <input type="text" id="getKey" placeholder="Ex: username">
+                </div>
+                <button onclick="getSession()">Récupérer la valeur</button>
+            </div>
+
+            <!-- Supprimer -->
+            <div class="card">
+                <h2>🗑️ DELETE - Supprimer</h2>
+                <div class="form-group">
+                    <label for="removeKey">Clé</label>
+                    <input type="text" id="removeKey" placeholder="Ex: username">
+                </div>
+                <button class="btn-secondary" onclick="removeSession()">Supprimer</button>
+            </div>
+
+            <!-- Voir tout -->
+            <div class="card">
+                <h2>📋 READ ALL - Voir tout</h2>
+                <button onclick="getAllSession()">Afficher toute la session</button>
+                <button class="btn-danger" onclick="clearSession()" style="margin-top: 10px;">Vider la session</button>
+            </div>
+        </div>
+
+        <div class="section-title">🛒 Exemple Pratique - Panier d'Achat</div>
+        
+        <div class="grid">
+            <!-- Panier -->
+            <div class="card">
+                <h2>🛍️ Gestion du Panier</h2>
+                <div class="form-group">
+                    <label for="cartItem">Article</label>
+                    <input type="text" id="cartItem" placeholder="Ex: Laptop">
+                </div>
+                <button onclick="addToCart()">Ajouter au panier</button>
+                <div class="btn-group">
+                    <button onclick="viewCart()">Voir panier</button>
+                    <button class="btn-secondary" onclick="clearCart()">Vider panier</button>
+                </div>
+            </div>
+
+            <!-- Compteur -->
+            <div class="card">
+                <h2>🔢 Compteur de Visites</h2>
+                <button onclick="visitCount()">Compter visite</button>
+            </div>
+
+            <!-- Login -->
+            <div class="card">
+                <h2>👤 Système de Login</h2>
+                <div class="form-group">
+                    <label for="username">Nom d'utilisateur</label>
+                    <input type="text" id="username" placeholder="Ex: admin">
+                </div>
+                <button onclick="login()">Se connecter</button>
+                <div class="btn-group">
+                    <button onclick="whoami()">Qui suis-je?</button>
+                    <button class="btn-secondary" onclick="logout()">Déconnexion</button>
+                </div>
+            </div>
+
+            <!-- Info Session -->
+            <div class="card">
+                <h2>ℹ️ Informations Session (JSON)</h2>
+                <button onclick="getSessionInfo()">Voir détails session</button>
+            </div>
+        </div>
+
+        <!-- Résultat -->
+        <div class="response">
+            <h2>📤 Réponse du Serveur</h2>
+            <div id="result">Aucune requête effectuée...</div>
+        </div>
+    </div>
+
+    <script>
+        const resultDiv = document.getElementById('result');
+
+        function showResult(text, isSuccess = true) {
+            resultDiv.textContent = text;
+            resultDiv.className = isSuccess ? 'success' : 'error';
+        }
+
+        async function makeRequest(url, method = 'GET', body = null) {
+            try {
+                const options = {
+                    method: method,
+                    credentials: 'same-origin' // Important pour maintenir la session
+                };
+
+                if (body) {
+                    options.body = body;
+                    options.headers = {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    };
+                }
+
+                const response = await fetch(url, options);
+                const text = await response.text();
+                
+                // Essayer de parser comme JSON pour un meilleur affichage
+                try {
+                    const json = JSON.parse(text);
+                    showResult(JSON.stringify(json, null, 2), true);
+                } catch {
+                    showResult(text, true);
+                }
+            } catch (error) {
+                showResult('Erreur: ' + error.message, false);
+            }
+        }
+
+        // CRUD Operations
+        function setSession() {
+            const key = document.getElementById('setKey').value;
+            const value = document.getElementById('setValue').value;
+            if (!key || !value) {
+                showResult('Veuillez remplir tous les champs', false);
+                return;
+            }
+            const body = new URLSearchParams({ key, value });
+            makeRequest('/session/set', 'POST', body);
+        }
+
+        function getSession() {
+            const key = document.getElementById('getKey').value;
+            if (!key) {
+                showResult('Veuillez entrer une clé', false);
+                return;
+            }
+            makeRequest('/session/get?key=' + encodeURIComponent(key));
+        }
+
+        function getAllSession() {
+            makeRequest('/session/all');
+        }
+
+        function removeSession() {
+            const key = document.getElementById('removeKey').value;
+            if (!key) {
+                showResult('Veuillez entrer une clé', false);
+                return;
+            }
+            const body = new URLSearchParams({ key });
+            makeRequest('/session/remove', 'POST', body);
+        }
+
+        function clearSession() {
+            if (confirm('Êtes-vous sûr de vouloir vider toute la session?')) {
+                makeRequest('/session/clear', 'POST');
+            }
+        }
+
+        // Shopping Cart
+        function addToCart() {
+            const item = document.getElementById('cartItem').value;
+            if (!item) {
+                showResult('Veuillez entrer un article', false);
+                return;
+            }
+            const body = new URLSearchParams({ item });
+            makeRequest('/session/cart/add', 'POST', body);
+            document.getElementById('cartItem').value = '';
+        }
+
+        function viewCart() {
+            makeRequest('/session/cart/view');
+        }
+
+        function clearCart() {
+            makeRequest('/session/cart/clear', 'POST');
+        }
+
+        // Visit Counter
+        function visitCount() {
+            makeRequest('/session/visit-count');
+        }
+
+        // Login System
+        function login() {
+            const username = document.getElementById('username').value;
+            if (!username) {
+                showResult('Veuillez entrer un nom d\'utilisateur', false);
+                return;
+            }
+            const body = new URLSearchParams({ username });
+            makeRequest('/session/login', 'POST', body);
+        }
+
+        function whoami() {
+            makeRequest('/session/whoami');
+        }
+
+        function logout() {
+            makeRequest('/session/logout', 'POST');
+        }
+
+        // Session Info (JSON API)
+        function getSessionInfo() {
+            makeRequest('/api/session/info');
+        }
+    </script>
+</body>
+</html>
