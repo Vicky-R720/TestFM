@@ -7,6 +7,16 @@
     <servlet>
         <servlet-name>Front</servlet-name>
         <servlet-class>servlet.FrontServlet</servlet-class>
+        
+        <!-- Configuration pour l'authentification et les rôles -->
+        <init-param>
+            <param-name>authSessionKey</param-name>
+            <param-value>auth</param-value>
+        </init-param>
+        <init-param>
+            <param-name>roleSessionKey</param-name>
+            <param-value>role</param-value>
+        </init-param>
     </servlet>
 
 
