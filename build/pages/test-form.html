@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Binding</title>
+</head>
+<body>
+    <h1>Test Employee Binding</h1>
+    
+    <form action="save-employee" method="POST">
+        <h3>Employee Info</h3>
+        <input name="e.name" placeholder="Employee Name" /><br/><br/>
+        
+        <h3>Department 1</h3>
+        <input name="e.department[0].name" placeholder="Dept 1 Name" /><br/>
+        <input name="e.department[0].id" placeholder="Dept 1 ID" /><br/><br/>
+        
+        <h3>Department 2</h3>
+        <input name="e.department[1].name" placeholder="Dept 2 Name" /><br/>
+        <input name="e.department[1].id" placeholder="Dept 2 ID" /><br/><br/>
+        
+        <button type="submit">Save Employee</button>
+    </form>
+    
+    <hr/>
+    
+    <h1>Test Array Binding</h1>
+    <form action="save-multiple" method="POST">
+        <h3>Employee 1</h3>
+        <input name="employees[0].name" placeholder="Emp 1 Name" /><br/>
+        
+        <h3>Employee 2</h3>
+        <input name="employees[1].name" placeholder="Emp 2 Name" /><br/>
+        
+        <h3>Department</h3>
+        <input name="d.name" placeholder="Department Name" /><br/>
+        <input name="d.id" placeholder="Department ID" /><br/>
+        
+        <h3>Additional Param</h3>
+        <input name="deptId" placeholder="Dept ID" /><br/><br/>
+        
+        <button type="submit">Save Multiple</button>
+    </form>
+</body>
+</html>

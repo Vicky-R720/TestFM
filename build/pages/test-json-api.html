@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API JSON - Sprint 9</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            background-color: #ecf0f1;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .success {
+            border-left-color: #27ae60;
+        }
+        .error {
+            border-left-color: #e74c3c;
+        }
+        .endpoint {
+            background-color: #34495e;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Test API JSON - Sprint 9</h1>
+    <p style="text-align: center; color: #666;">Testez les différents endpoints de l'API REST avec l'annotation @Json</p>
+
+    <!-- Test 1 -->
+    <div class="test-section">
+        <h2>Test 1: Retour d'un objet simple</h2>
+        <div class="endpoint">GET /api/employee</div>
+        <p>Retourne un objet Employee simple</p>
+        <button onclick="testApi('../api/employee', 'result1')">Tester</button>
+        <div id="result1" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test 2 -->
+    <div class="test-section">
+        <h2>Test 2: Retour d'une liste d'objets</h2>
+        <div class="endpoint">GET /api/employees</div>
+        <p>Retourne une liste de 3 employés</p>
+        <button onclick="testApi('../api/employees', 'result2')">Tester</button>
+        <div id="result2" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test 3 -->
+    <div class="test-section">
+        <h2>Test 3: Objet avec relation (Employee + Departments)</h2>
+        <div class="endpoint">GET /api/employee-detail</div>
+        <p>Retourne un employé avec ses départements</p>
+        <button onclick="testApi('../api/employee-detail', 'result3')">Tester</button>
+        <div id="result3" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test 4 -->
+    <div class="test-section">
+        <h2>Test 4: Retour d'une Map</h2>
+        <div class="endpoint">GET /api/stats</div>
+        <p>Retourne des statistiques sous forme de Map</p>
+        <button onclick="testApi('../api/stats', 'result4')">Tester</button>
+        <div id="result4" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test 5 -->
+    <div class="test-section">
+        <h2>Test 5: JsonResponse personnalisé (Succès)</h2>
+        <div class="endpoint">GET /api/custom-success</div>
+        <p>Retourne un JsonResponse avec données personnalisées</p>
+        <button onclick="testApi('../api/custom-success', 'result5')">Tester</button>
+        <div id="result5" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test 6 -->
+    <div class="test-section">
+        <h2>Test 6: JsonResponse avec erreur</h2>
+        <div class="endpoint">GET /api/custom-error</div>
+        <p>Retourne un JsonResponse avec code d'erreur 404</p>
+        <button onclick="testApi('../api/custom-error', 'result6')">Tester</button>
+        <div id="result6" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Test 7 -->
+    <div class="test-section">
+        <h2>Test 7: Liste vide</h2>
+        <div class="endpoint">GET /api/empty-list</div>
+        <p>Retourne une liste vide</p>
+        <button onclick="testApi('../api/empty-list', 'result7')">Tester</button>
+        <div id="result7" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        function testApi(endpoint, resultId) {
+            const resultDiv = document.getElementById(resultId);
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = '⏳ Chargement...';
+            resultDiv.className = 'result';
+
+            fetch(endpoint)
+                .then(response => {
+                    const contentType = response.headers.get('content-type');
+                    console.log('Content-Type:', contentType);
+                    return response.text();
+                })
+                .then(data => {
+                    try {
+                        // Essayer de formater le JSON
+                        const json = JSON.parse(data);
+                        resultDiv.textContent = JSON.stringify(json, null, 2);
+                        
+                        // Colorer selon le status
+                        if (json.status === 'success') {
+                            resultDiv.classList.add('success');
+                        } else if (json.status === 'error') {
+                            resultDiv.classList.add('error');
+                        }
+                    } catch (e) {
+                        // Si ce n'est pas du JSON valide
+                        resultDiv.textContent = data;
+                    }
+                })
+                .catch(error => {
+                    resultDiv.textContent = '❌ Erreur: ' + error.message;
+                    resultDiv.classList.add('error');
+                });
+        }
+
+        // Tester tous les endpoints
+        function testAll() {
+            const tests = [
+                '../api/employee',
+                '../api/employees',
+                '../api/employee-detail',
+                '../api/stats',
+                '../api/custom-success',
+                '../api/custom-error',
+                '../api/empty-list'
+            ];
+            
+            tests.forEach((endpoint, index) => {
+                setTimeout(() => {
+                    testApi(endpoint, 'result' + (index + 1));
+                }, index * 500);
+            });
+        }
+    </script>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <button onclick="testAll()" style="background-color: #27ae60; padding: 15px 30px; font-size: 16px;">
+            🧪 Tester tous les endpoints
+        </button>
+    </div>
+
+    <div style="margin-top: 40px; padding: 20px; background-color: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+        <h3 style="margin-top: 0;">📋 Format de réponse attendu</h3>
+        <pre style="background-color: white; padding: 15px; border-radius: 4px;">{
+  "status": "success", // ou "error"
+  "code": 200,        // 200, 404, 500, etc.
+  "data": {           // ou [] pour une liste
+    ...
+  }
+}</pre>
+    </div>
+
+</body>
+</html>
